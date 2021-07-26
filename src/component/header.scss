@@ -1,0 +1,25 @@
+header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  border-bottom: 1px solid #eee;
+  background: #fff;
+  box-shadow: 0 5px 5px 5px rgba(0,0,0,.08);
+  padding:0 20px;
+  box-sizing: border-box;
+  .item{
+    display: flex;
+    align-items: center;
+    i{
+      margin-right: 18px;
+    }
+  }
+  .fr{
+    img{
+      height: 40px;
+      width: 40px;
+      object-fit: cover;
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "nav": [
+    {
+      "id": 1,
+      "title": "数据中心",
+      "link": "/numberCenter",
+      "icon": "home",
+      "children": [
+        {
+          "id": "1-1",
+          "title": "市场分布",
+          "link": "/" 
+        },
+        {
+          "id": "1-2",
+          "title": "人流量",
+          "link": "/numberCenter/number" 
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "订单管理",
+      "link": "/order",
+      "icon": "bar-chart-o"
+    },
+    {
+      "id": 3,
+      "title": "账户信息",
+      "link": "/userInfo",
+      "icon": "user-circle"
+    }
+  ]
+}
