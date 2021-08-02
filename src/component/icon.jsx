@@ -5,8 +5,8 @@ const url = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-
 const FontAwesome = Icon(url, 'FontAwesome', 'fa')
 
 export default function Icons(props) {
-  const { name, type, size = 20 } = props
+  const { name, type, size = 20, color = '#666' } = props
   return (
-    <FontAwesome name={name} type={type} fontSize={size} />
+    <FontAwesome name={name} type={type} fontSize={size} style={{ color }} />
   )
 }

@@ -9,10 +9,7 @@ export default function Nav() {
   const history = useHistory()
   const [active, setActive] = useState(pathname)
   const data = menu
-  const a = 222
-  function ss() {
-    console.log(22)
-  }
+
   const handleClick = (item) => {
     history.push({
       pathname: item.link,

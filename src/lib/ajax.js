@@ -2,7 +2,6 @@
 import { Message } from 'shineout'
 
 const orgin = 'http://localhost:8080'
-
 export const ajax = (url, option) => {
   url = orgin + url
   if (option && option.method === 'GET' && option.body) {
@@ -22,6 +21,6 @@ export const ajax = (url, option) => {
     },
     ...option
   }).then(res => res.json())
-    .catch(() => Message.error('网络错误'))
+    .catch(() => { Message.error('网络错误') })
 }
 

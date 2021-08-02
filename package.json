@@ -106,7 +106,6 @@
     "eslint": "^7.31.0",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-import-resolver-webpack": "^0.13.0",
-    "eslint-loader": "^4.0.2",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-react": "^7.5.1",
@@ -165,5 +164,10 @@
       "jest-watch-typeahead/testname"
     ],
     "resetMocks": true
+  },
+  "babel": {
+    "presets": [
+      "react-app"
+    ]
   }
 }

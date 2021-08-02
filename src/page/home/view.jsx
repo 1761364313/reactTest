@@ -2,58 +2,134 @@ import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 
 import { Form, Input, Table, DatePicker, Message, Spin, Breadcrumb } from 'shineout'
+
+import Cart from './jsx/cart'
+
 import loadable from '@loadable/component'
 import { ajax } from '../../lib/ajax'
 
 import Icons from '../../component/icon'
-import './style.scss'
-
-const Number = loadable(() => import('../number/view'))
 
 function Home() {
-  const [formData, setFormData] = useState({})
-  const [list, setList] = useState([])
   const [loading, setLoading] = useState(false)
   const history = useHistory()
+  const cart = [
+    {
+      title: '订单数',
+      tips: '周线',
+      titleIcon: {
+        name: 'bar-chart-o',
+        size: '22px',
+        color: '#37A2FF'
+      },
+      type: 'add',
+      number: '22200',
+      tag: '+4%',
+      jtIcon: {
+        name: 'long-arrow-up',
+        size: '18',
+        color: 'red'
+      },
+      canvas: {
+        id: 'order',
+        color: '#37A2FF',
+        lineColor: ['rgb(55, 162, 255)', 'rgba(1, 191, 236, 0.01)'],
+        data: [10, 40, 150, 30, 80, 300, 5]
+      }
+    },
+    {
+      title: '交易金额',
+      tips: '周线',
+      titleIcon: {
+        name: 'shopping-basket',
+        size: '22px',
+        color: '#56bbaa'
+      },
+      number: '22200',
+      type: 'reduce',
+      tag: '-5%',
+      jtIcon: {
+        name: 'long-arrow-down',
+        size: '18',
+        color: 'green'
+      },
+      canvas: {
+        id: 'money',
+        color: '#56bbaa',
+        lineColor: ['rgb(128, 255, 165)', 'rgba(1, 191, 236, 0.01)'],
+        data: [300, 40, 150, 30, 80, 500, 5]
+      }
+    },
+    {
+      title: '浏览量',
+      tips: '周线',
+      titleIcon: {
+        name: 'cubes',
+        size: '22px',
+        color: '#ea5b9f'
+      },
+      number: '22200',
+      type: 'add',
+      tag: '+22%',
+      jtIcon: {
+        name: 'long-arrow-up',
+        size: '18',
+        color: 'red'
+      },
+      canvas: {
+        id: 'ready',
+        color: '#ea5b9f',
+        lineColor: ['#e058a0', 'rgba(135, 0, 157, 0.01)'],
+        data: [10, 220, 150, 30, 80, 300, 5]
+      }
+    },
+    {
+      title: '客单价',
+      tips: '周线',
+      titleIcon: {
+        name: 'pie-chart',
+        size: '22px',
+        color: '#FFBF00'
+      },
+      number: '22200',
+      type: 'reduce',
+      tag: '-4%',
+      jtIcon: {
+        name: 'long-arrow-down',
+        size: '18',
+        color: 'green'
+      },
+      canvas: {
+        id: 'price',
+        color: '#ff9900',
+        lineColor: ['rgb(255, 191, 0)', 'rgba(224, 62, 76, 0.01)'],
+        data: [20, 102, 181, 334, 210, 90, 250]
+      }
+    }
+
+  ]
   const getList = (params) => {
     ajax('/list', {
       body: JSON.stringify(params),
       method: 'POST'
     }).then((res) => {
       setLoading(true)
+      console.log('resss')
       if (res.code === 0) {
-        setList(res.list)
+        console.log(res)
       } else {
+        console.log(222)
         Message.error(res.msg)
       }
+    }).catch(() => {
+      console.log('eee')
     })
   }
-  const handleChange = (data) => {
-    setFormData(data)
-  }
+
   useEffect(() => {
     getList({ a: 22, b: 22 })
   }, [])
 
-  const columns = [
-    {
-      title: '序号',
-      render: (r, i) => i + 1,
-      width: 50
-    },
-    {
-      title: '名称',
-      render: 'name'
-    },
-    {
-      title: '年龄',
-      render: 'age'
-    },
-    {
-      title: '时间',
-      render: 'time'
-    }
-  ]
   const breadcrumb = [
     { icon: <Icons name="home" size={18} />, title: '首页', onClick: () => { history.push('/') } },
     { title: '数据中心', onClick: () => { history.push('/') } },
@@ -61,35 +137,46 @@ function Home() {
   ]
   if (loading) {
     return (
-      <div className="home">
+      <div style={{ height: '100%', width: '100%' }}>
         <Breadcrumb data={breadcrumb} />
-        <Number />
-        <Table fixed="auto" keygen={(r, i) => i} columns={columns} bordered data={list} />
-        <Form
-          value={formData}
-          onChange={handleChange}
-          onSubmit={(data) => {
-            console.log(data)
+        <div style={{
+          display: 'flex',
+          width: '100%',
+          justifyContent: 'space-between',
+          marginTop: '12px',
+          columnGap: '12px'
+        }}
+        >
+          {cart.map(item => <Cart key={item.canvas.id} {...item} />)}
+        </div>
+        <div
+          style={{
+            width: '100%',
+            height: '360px',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            columnGap: '12px',
+            marginTop: '12px',
+            background: '#ff9900'
           }}
         >
-          <Form.Item label="name">
-            <Input name="name" />
-          </Form.Item>
-
-          <Form.Item label="age">
-            <Input name="age" />
-          </Form.Item>
-
-          <Form.Item label="time">
-            <DatePicker type="datetime" name="time" min={Date.now()} placeholder="Select min datetime" />
-          </Form.Item>
-
-          <Form.Item label="">
-            <Form.Submit>Submit</Form.Submit>
-            <Form.Reset>Reset</Form.Reset>
-          </Form.Item>
-        </Form>
-
+          ss
+        </div>
+        <div
+          style={{
+            width: '100%',
+            height: 'calc(100% - 600px)',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            columnGap: '12px',
+            marginTop: '12px',
+            background: '#ff9900'
+          }}
+        >
+          sss222
+        </div>
       </div>
     )
   }

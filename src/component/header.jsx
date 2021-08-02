@@ -5,7 +5,7 @@ import './header.scss'
 
 export default function header() {
   return (
-    <header>
+    <header className="header">
       <div className="fl item">
         <Icons name="align-right" size={16} />
         <Icons name="area-chart" size={16} />

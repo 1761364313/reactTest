@@ -9,6 +9,7 @@ module.exports = {
       "object-curly-newline": 0, // 解构赋值的时 可以不用换行
       "semi": ["error", "never"], // 不要分号
       "no-octal-escape": 0, // 二进制
+      "no-unused-expressions":0, // 允许使用逻辑运算符
       "no-plusplus": "off",
       "react/require-default-props": "off",
       "react/prop-types": "off",

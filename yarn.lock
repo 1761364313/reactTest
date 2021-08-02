@@ -4622,17 +4622,6 @@ eslint-import-resolver-webpack@^0.13.0:
     resolve "^1.20.0"
     semver "^5.7.1"
 
-eslint-loader@^4.0.2:
-  version "4.0.2"
-  resolved "https://registry.nlark.com/eslint-loader/download/eslint-loader-4.0.2.tgz#386a1e21bcb613b3cf2d252a3b708023ccfb41ec"
-  integrity sha1-OGoeIby2E7PPLSUqO3CAI8z7Qew=
-  dependencies:
-    find-cache-dir "^3.3.1"
-    fs-extra "^8.1.0"
-    loader-utils "^2.0.0"
-    object-hash "^2.0.3"
-    schema-utils "^2.6.5"
-
 eslint-module-utils@^2.6.1:
   version "2.6.1"
   resolved "https://registry.nlark.com/eslint-module-utils/download/eslint-module-utils-2.6.1.tgz?cache=0&sync_timestamp=1620972183296&other_urls=https%3A%2F%2Fregistry.nlark.com%2Feslint-module-utils%2Fdownload%2Feslint-module-utils-2.6.1.tgz#b51be1e473dd0de1c5ea638e22429c2490ea8233"
@@ -7748,11 +7737,6 @@ object-copy@^0.1.0:
     copy-descriptor "^0.1.0"
     define-property "^0.2.5"
     kind-of "^3.0.3"
-
-object-hash@^2.0.3:
-  version "2.2.0"
-  resolved "https://registry.nlark.com/object-hash/download/object-hash-2.2.0.tgz#5ad518581eefc443bd763472b8ff2e9c2c0d54a5"
-  integrity sha1-WtUYWB7vxEO9djRyuP8unCwNVKU=
 
 object-inspect@^1.10.3, object-inspect@^1.9.0:
   version "1.10.3"
