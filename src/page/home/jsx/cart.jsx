@@ -1,6 +1,6 @@
 import React from 'react'
 import Icon from '../../../component/icon'
-import Canvas from './canvas'
+import Item from './cartItem'
 
 export default function car(props) {
   return (
@@ -8,10 +8,11 @@ export default function car(props) {
       style={{
         height: '180px',
         borderRadius: '8px',
+        padding: '24px',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        flex: '1',
+        flex: 1,
         flexDirection: 'column',
         background: '#fff'
       }}
@@ -20,9 +21,9 @@ export default function car(props) {
         style={{
           display: 'flex',
           alignItems: 'center',
-          padding: '12px 24px 0 24px',
           width: '100%',
-          justifyContent: 'space-between'
+          justifyContent: 'space-between',
+          boxSizing: 'border-box'
         }}
       >
         <div
@@ -52,7 +53,7 @@ export default function car(props) {
           <p style={{ fontSize: '12px', color: props.type === 'add' ? 'red' : 'green' }}>{props.tag} <Icon {...props.jtIcon} /> </p>
         </div>
       </header>
-      <Canvas {...props} />
+      <Item {...props} />
     </div>
   )
 }

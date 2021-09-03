@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
+import { Form, Input, Table, DatePicker, Message, Breadcrumb } from 'shineout'
 
-import { Form, Input, Table, DatePicker, Message, Spin, Breadcrumb } from 'shineout'
-
-import Cart from './jsx/cart'
-
-import loadable from '@loadable/component'
 import { ajax } from '../../lib/ajax'
 
 import Icons from '../../component/icon'
+import Myspin from '../../component/mySpin'
+import Cart from './jsx/cart'
+import Skim from './jsx/skim'
+import Preformance from './jsx/preformance'
+import Channel from './jsx/channel'
+import Maker from './jsx/maker'
 
 function Home() {
   const [loading, setLoading] = useState(false)
@@ -109,7 +111,7 @@ function Home() {
 
   ]
   const getList = (params) => {
-    ajax('/list', {
+    ajax('/home/list', {
       body: JSON.stringify(params),
       method: 'POST'
     }).then((res) => {
@@ -157,11 +159,11 @@ function Home() {
             justifyContent: 'space-between',
             alignItems: 'center',
             columnGap: '12px',
-            marginTop: '12px',
-            background: '#ff9900'
+            marginTop: '12px'
           }}
         >
-          ss
+          <Skim />
+          <Preformance />
         </div>
         <div
           style={{
@@ -171,19 +173,17 @@ function Home() {
             justifyContent: 'space-between',
             alignItems: 'center',
             columnGap: '12px',
-            marginTop: '12px',
-            background: '#ff9900'
+            marginTop: '12px'
           }}
         >
-          sss222
+          <Channel />
+          <Maker />
         </div>
       </div>
     )
   }
   return (
-    <div style={{ display: 'flex', width: '100%', height: '100vh' }}>
-      <Spin size="54px" name="three-bounce" color="#dc3545" />
-    </div>
+    <Myspin />
   )
 }
 

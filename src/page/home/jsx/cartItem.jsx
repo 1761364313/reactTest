@@ -23,6 +23,12 @@ export default function canvas(props) {
 
     const option = {
       color: [color],
+      grid: {
+        x: 0,
+        y: 0,
+        bottom: 0,
+        width: '100%'
+      },
       tooltip: {
         trigger: 'axis',
         axisPointer: {

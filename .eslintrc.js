@@ -10,6 +10,12 @@ module.exports = {
       "semi": ["error", "never"], // 不要分号
       "no-octal-escape": 0, // 二进制
       "no-unused-expressions":0, // 允许使用逻辑运算符
+      "react-hooks/rules-of-hooks": 0,
+      "prefer-promise-reject-errors": 0,
+      "guard-for-in": 0,
+      "no-irregular-whitespace": 0,
+      "no-restricted-syntax": 0,
+      "no-mixed-operators": 0,
       "no-plusplus": "off",
       "react/require-default-props": "off",
       "react/prop-types": "off",
@@ -24,7 +30,6 @@ module.exports = {
       "no-control-regex": 0,
       "jsx-a11y/anchor-is-valid": 0,
       "no-script-url": 0,
-      "react-hooks/rules-of-hooks": "error",
       "prefer-destructuring": "off",
       "eqeqeq": 'off',
       "no-shadow": "off",

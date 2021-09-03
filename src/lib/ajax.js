@@ -21,6 +21,11 @@ export const ajax = (url, option) => {
     },
     ...option
   }).then(res => res.json())
-    .catch(() => { Message.error('网络错误') })
+    .catch((err) => {
+      Message.error('网络错误')
+      return new Promise((resolve, reject) => {
+        reject(err)
+      })
+    })
 }
 
