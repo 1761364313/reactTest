@@ -20,6 +20,7 @@ export const formatTime = (fmt, time = Date.now()) => {
   return fmt
 }
 
+// 判断 promise 对象
 export const isPromise = obj => !!obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function'
 // 这里对dispatch函数进行一个封装，使其支持处理异步action
 // 简而言之就是判断传进来的action是不是Promise对象，如果是的话
