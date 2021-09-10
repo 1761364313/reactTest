@@ -1,5 +1,4 @@
-import { useState, useReducer, useRef, useEffect } from 'react'
-import { Message } from 'shineout'
+import { useState, useReducer, useEffect } from 'react'
 import loadable from '@loadable/component'
 
 import { reducer, defaultValue, context } from './reducers'
@@ -16,14 +15,13 @@ const List = loadable(() => import('./jsx/list'))
 const Edit = loadable(() => import('./jsx/edit'))
 
 function User() {
-  const childRef = useRef()
   // eslint-disable-next-line prefer-const
   let [state, dispatch] = useReducer(reducer, defaultValue)
   dispatch = wraperDispatch(dispatch)
-  const [loading, setLoading] = useState(true)
+  const [loading] = useState(true)
 
   useEffect(() => {
-    dispatch({ type: 'getList', payload: getList({ pageSize: 10, pageIndex: 1 }) })
+    dispatch({ type: 'getList', payload: getList({ ...state.page }) })
   }, [])
   if (loading) {
     return (

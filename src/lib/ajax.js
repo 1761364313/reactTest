@@ -1,11 +1,12 @@
 
 import { Message } from 'shineout'
+import { formatParams } from './utils'
 
 const orgin = 'http://localhost:8080'
 export const ajax = (url, option) => {
   url = orgin + url
   if (option && option.method === 'GET' && option.body) {
-    const obj = JSON.parse(option.body)
+    const obj = option.body
     const arr = []
     Object.keys(obj).forEach(i => arr.push(`${i}=${obj[i]}`))
     if (url.search(/\?/) === -1) {
@@ -14,6 +15,9 @@ export const ajax = (url, option) => {
       url += `&${arr.join('&')}`
     }
     delete option.body
+  }
+  if (option.body) {
+    option.body = JSON.stringify(formatParams(option.body))
   }
   return fetch(url, {
     headers: {

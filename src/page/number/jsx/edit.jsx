@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useRef } from 'react'
+import React, { useState, useContext, useRef } from 'react'
 import { Modal, Button, Form, Input, Rule } from 'shineout'
 
 import { getList, add, update } from '../serve'
@@ -27,12 +27,17 @@ export default function edit() {
   })
   // 重置
   function reset() {
-    const params = {
+    let page = {
       pageIndex: 1,
       pageSize: 10
     }
-    dispatch({ type: 'getList', payload: getList(params) })
+    if (modalType === 'add') {
+      dispatch({ type: 'setPage', payload: page })
+    } else {
+      page = state.page
+    }
     dispatch({ type: 'changeVisible', payload: false })
+    dispatch({ type: 'getList', payload: getList(page) })
     // 重置
     formRef.current && formRef.current.reset()
   }
@@ -41,6 +46,16 @@ export default function edit() {
     add(data).then((res) => {
       setSubmit(true)
       if (res) {
+        dispatch({
+          type: 'setSearch',
+          payload: {
+            _id: '',
+            name: '',
+            tel: '',
+            person: '',
+            startTime: '',
+            endTime: ''
+          } })
         reset()
       }
     }).catch(setSubmit(true))

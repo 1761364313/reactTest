@@ -41,3 +41,12 @@ export const wraperDispatch = dispatch => (action) => {
     dispatch(action)
   }
 }
+
+// 传参 格式化
+export const formatParams = (params) => {
+  if (!params) return null
+  Object.keys(params).forEach((item) => {
+    if (item && !params[item]) delete params[item]
+  })
+  return params
+}

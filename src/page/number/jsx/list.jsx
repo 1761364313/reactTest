@@ -1,4 +1,4 @@
-import { useImperativeHandle, useEffect, useContext } from 'react'
+import { useImperativeHandle, useContext } from 'react'
 import { Table, Button } from 'shineout'
 import { context } from '../reducers'
 import { getList } from '../serve'
@@ -16,11 +16,13 @@ export default function list(props) {
   }
   const columns = [
     { title: 'index', render: (r, i) => i + 1, width: 60 },
+    { title: 'Id', render: '_id', width: 60 },
     { title: 'Name', render: 'name' },
     { title: 'Price', render: 'price' },
     { title: 'priceAll', render: 'priceAll' },
     { title: 'tel', render: 'tel' },
     { title: 'person', render: 'person' },
+    { title: 'creatTime', render: 'creatTime' },
     {
       title: '操作',
       fixed: 'right',
@@ -34,24 +36,28 @@ export default function list(props) {
     }
   ]
   const onChangePage = (pageIndex, pageSize) => {
-    console.log(pageSize)
-    console.log(pageIndex)
-    dispatch({ type: 'getList', payload: getList({ pageIndex, pageSize }) })
+    dispatch({ type: 'setPage', payload: { pageIndex, pageSize } })
+    const params = {
+      ...state.searchParams,
+      pageSize,
+      pageIndex
+    }
+    dispatch({ type: 'getList', payload: getList(params) })
   }
-  useEffect(() => {
 
-  }, [])
-  return (<Table
-    keygen={() => Date.now()}
-    fixed="x"
-    width={1200}
-    bordered
-    columns={columns}
-    height="auto"
-    data={state.list?.list}
-    pagination={{
+  return (
+    <Table
+      keygen="_id"
+      fixed="x"
+      width={1200}
+      bordered
+      columns={columns}
+      style={{ height: 'auto' }}
+      data={state.list?.list}
+      pagination={{
       align: 'right',
       layout: ['links', 'list'],
+      current: state.page.pageIndex,
       onChange: (pageIndex, pageSize) => onChangePage(pageIndex, pageSize),
       pageSizeList: [10, 15, 20],
       total: state?.list?.count,
@@ -59,5 +65,6 @@ export default function list(props) {
         page: '条/页'
       }
     }}
-  />)
+    />
+  )
 }

@@ -13,6 +13,18 @@ export const defaultValue = {
     priceAll: '',
     tel: '',
     person: ''
+  },
+  page: {
+    pageIndex: 1,
+    pageSize: 10
+  },
+  searchParams: {
+    _id: '',
+    name: '',
+    tel: '',
+    person: '',
+    startTime: '',
+    endTime: ''
   }
 }
 
@@ -31,6 +43,10 @@ export const reducer = (state, action) => {
       return { ...state, loading: true }
     case 'loadingEnd':
       return { ...state, loading: false }
+    case 'setPage':
+      return { ...state, page: action.payload }
+    case 'setSearch':
+      return { ...state, searchParams: action.payload }
     default:
       return state
   }
