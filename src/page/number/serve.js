@@ -29,7 +29,7 @@ export const add = params => new Promise((resolve) => {
   })
 })
 
-export const update = params => new Promise((resolve) => {
+export const update = params => new Promise((resolve, reject) => {
   ajax('/order/update', {
     body: params,
     method: 'POST'
@@ -41,5 +41,24 @@ export const update = params => new Promise((resolve) => {
       resolve(false)
       Message.error(res.msg || '网络错误')
     }
+  }).catch((err) => {
+    reject(err)
+  })
+})
+
+export const remove = params => new Promise((resolve, reject) => {
+  ajax('/order/remove', {
+    body: params,
+    method: 'POST'
+  }).then((res) => {
+    if (res?.code === 0) {
+      Message.success('删除成功～')
+      resolve(true)
+    } else {
+      resolve(false)
+      Message.error(res.msg || '网络错误')
+    }
+  }).catch((err) => {
+    reject(err)
   })
 })

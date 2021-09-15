@@ -1,18 +1,24 @@
-import { useImperativeHandle, useContext } from 'react'
+import { useContext } from 'react'
 import { Table, Button } from 'shineout'
 import { context } from '../reducers'
-import { getList } from '../serve'
+import { getList, remove } from '../serve'
 
-export default function list(props) {
+export default function list() {
   const [state, dispatch] = useContext(context)
-  useImperativeHandle(props.childRef, () => ({
-    aa: () => console.log(222)
-  }))
   const handleEdit = (data) => {
     dispatch({ type: 'changeVisible', payload: true })
     dispatch({ type: 'changeForm', payload: data })
     dispatch({ type: 'changeType', payload: 'edit' })
-    console.log(data)
+  }
+  const handleDel = async (data) => {
+    if (data) {
+      await remove({ _id: data._id })
+      const params = {
+        ...state.page,
+        ...state.searchParams
+      }
+      dispatch({ type: 'getList', payload: getList(params) })
+    }
   }
   const columns = [
     { title: 'index', render: (r, i) => i + 1, width: 60 },
@@ -30,7 +36,7 @@ export default function list(props) {
         <span>
           <Button data-info type="primary" onClick={() => handleEdit(r)} size="small"> 编辑 </Button>
           &nbsp;
-          <Button data-call type="primary" size="small">删除</Button>
+          <Button data-call type="primary" onClick={() => handleDel(r)} size="small">删除</Button>
         </span>
       )
     }
@@ -44,7 +50,6 @@ export default function list(props) {
     }
     dispatch({ type: 'getList', payload: getList(params) })
   }
-
   return (
     <Table
       keygen="_id"
@@ -53,18 +58,18 @@ export default function list(props) {
       bordered
       columns={columns}
       style={{ height: 'auto' }}
-      data={state.list?.list}
+      data={state.list?.data}
       pagination={{
-      align: 'right',
-      layout: ['links', 'list'],
-      current: state.page.pageIndex,
-      onChange: (pageIndex, pageSize) => onChangePage(pageIndex, pageSize),
-      pageSizeList: [10, 15, 20],
-      total: state?.list?.count,
-      text: {
-        page: '条/页'
-      }
-    }}
+        align: 'right',
+        layout: ['links', 'list'],
+        current: state.page.pageIndex,
+        onChange: (pageIndex, pageSize) => onChangePage(pageIndex, pageSize),
+        pageSizeList: [10, 15, 20],
+        total: state?.list?.count,
+        text: {
+          page: '条/页'
+        }
+      }}
     />
   )
 }

@@ -33,10 +33,12 @@ export const isPromise = obj => !!obj && (typeof obj === 'object' || typeof obj 
 // 这个灵感来源于dva-loading，感谢！
 export const wraperDispatch = dispatch => (action) => {
   if (isPromise(action.payload)) {
-    dispatch({ type: 'loadingStart' })
+    dispatch({ type: 'setLoading', payload: true })
     action.payload.then((v) => {
       dispatch({ type: action.type, payload: v })
-      dispatch({ type: 'loadingEnd' })
+      dispatch({ type: 'setLoading', payload: false })
+    }).catch(() => {
+      dispatch({ type: 'setLoading', payload: false })
     })
   } else {
     dispatch(action)

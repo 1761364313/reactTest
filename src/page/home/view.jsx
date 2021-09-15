@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import { Form, Input, Table, DatePicker, Message, Breadcrumb } from 'shineout'
-
-import { ajax } from '../../lib/ajax'
+import { Breadcrumb } from 'shineout'
 
 import Icons from '../../component/icon'
 import Myspin from '../../component/mySpin'
@@ -13,7 +11,7 @@ import Channel from './jsx/channel'
 import Maker from './jsx/maker'
 
 function Home() {
-  const [loading, setLoading] = useState(false)
+  const [loading] = useState(true)
   const history = useHistory()
   const cart = [
     {
@@ -110,27 +108,6 @@ function Home() {
     }
 
   ]
-  const getList = (params) => {
-    ajax('/home/list', {
-      body: JSON.stringify(params),
-      method: 'POST'
-    }).then((res) => {
-      setLoading(true)
-      console.log('resss')
-      if (res.code === 0) {
-        console.log(res)
-      } else {
-        console.log(222)
-        Message.error(res.msg)
-      }
-    }).catch(() => {
-      console.log('eee')
-    })
-  }
-
-  useEffect(() => {
-    getList({ a: 22, b: 22 })
-  }, [])
 
   const breadcrumb = [
     { icon: <Icons name="home" size={18} />, title: '首页', onClick: () => { history.push('/') } },

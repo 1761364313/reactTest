@@ -6,7 +6,6 @@ import { getList } from '../serve'
 
 export default function from() {
   const [state, dispatch] = useContext(context)
-  console.log(useContext(context))
 
   const search = (e) => {
     const page = {
@@ -17,7 +16,6 @@ export default function from() {
       ...e,
       ...page
     }
-
     dispatch({ type: 'getList', payload: getList(params) })
     dispatch({ type: 'setPage', payload: page })
     dispatch({ type: 'setSearch', payload: params })

@@ -67,10 +67,7 @@ export default function edit() {
       if (res) {
         reset()
       }
-    }).catch((err) => {
-      setSubmit(true)
-      console.log('err', err)
-    })
+    }).catch(setSubmit(true))
   }
   // 保存
   const onSave = (data) => {
@@ -96,7 +93,7 @@ export default function edit() {
       onClose={handleClose}
       footer={[
         <Button key="cancel" onClick={handleClose}>取消</Button>,
-        <Modal.Submit>保存</Modal.Submit>
+        <Modal.Submit loading={!submit}>保存</Modal.Submit>
       ]}
     >
       <Form

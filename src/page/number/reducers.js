@@ -39,10 +39,8 @@ export const reducer = (state, action) => {
       return { ...state, list: action.payload }
     case 'changeForm':
       return { ...state, formDefault: action.payload }
-    case 'loadingStart':
-      return { ...state, loading: true }
-    case 'loadingEnd':
-      return { ...state, loading: false }
+    case 'setLoading':
+      return { ...state, loading: action.payload }
     case 'setPage':
       return { ...state, page: action.payload }
     case 'setSearch':
