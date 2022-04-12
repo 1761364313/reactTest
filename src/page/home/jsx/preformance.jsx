@@ -5,8 +5,7 @@ import { PieChart } from 'echarts/charts'
 import { CanvasRenderer } from 'echarts/renderers'
 
 echarts.use([TooltipComponent, PieChart, LegendComponent, CanvasRenderer])
-export default function preformance(props) {
-  const { data } = props
+export default function Preformance() {
   const drawImage = () => {
     const chartDom = document.getElementById('preformance')
     const myChart = echarts.init(chartDom)
@@ -44,10 +43,10 @@ export default function preformance(props) {
               fontWeight: 'bolder',
               color: '#666'
             },
-            formatter(params) {
+            formatter(params = {}) {
               const name = params.data.name
-              const arr = name.split(':')
-              const percent = params.percent
+              const arr = name.split(':') || []
+              const percent = params.percent || 0
               const str = `${arr[0]}占比\n${percent}%`
               return str
             },
@@ -80,7 +79,7 @@ export default function preformance(props) {
       myChart.dispatchAction({ type: 'highlight', seriesIndex: 0, dataIndex: 1 })
       myChart.on('mouseover', (e) => {
         if (e.dataIndex != index) {
-          myChart.dispatchAction({ type: 'downplay', seriesIndex: 0, dataIndex: index  })
+          myChart.dispatchAction({ type: 'downplay', seriesIndex: 0, dataIndex: index })
         }
       })
 

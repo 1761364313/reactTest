@@ -2,28 +2,24 @@ import { useContext } from 'react'
 import { Form, Input, DatePicker, Button } from 'shineout'
 
 import { context } from '../reducers'
-import { getList } from '../serve'
 
 export default function from() {
+  console.log('form')
   const [state, dispatch] = useContext(context)
 
+  const { searchParams, refresh } = state
+
   const search = (e) => {
-    const page = {
-      pageIndex: 1,
-      pageSize: 10
-    }
-    const params = {
-      ...e,
-      ...page
-    }
-    dispatch({ type: 'getList', payload: getList(params) })
-    dispatch({ type: 'setPage', payload: page })
-    dispatch({ type: 'setSearch', payload: params })
+    dispatch({
+      type: 'changeVal',
+      key: ['searchParams', 'refresh'],
+      value: [e, refresh + 1]
+    })
   }
   return (
     <div>
       <Form
-        value={state.searchParams}
+        value={searchParams}
         inline
         onSubmit={search}
         style={{ marginBottom: '12px' }}
@@ -48,10 +44,12 @@ export default function from() {
         <Button
           type="primary"
           onClick={() => {
-            dispatch({ type: 'changeVisible', payload: true })
-            dispatch({ type: 'changeType', payload: 'add' })
-          }
-        }
+            dispatch({
+              type: 'changeVal',
+              key: ['visible', 'modalType'],
+              value: [true, 'add']
+            })
+          }}
         >
           新增
         </Button>

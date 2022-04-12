@@ -11,7 +11,7 @@ export const getList = params => new Promise((resolve) => {
     } else {
       Message.error(res.msg || '网络错误')
     }
-  })
+  }).catch(err => console.log(err))
 })
 
 export const add = params => new Promise((resolve) => {
@@ -26,7 +26,7 @@ export const add = params => new Promise((resolve) => {
       resolve(false)
       Message.error(res.msg || '网络错误')
     }
-  })
+  }).catch(err => console.log(err))
 })
 
 export const update = params => new Promise((resolve, reject) => {

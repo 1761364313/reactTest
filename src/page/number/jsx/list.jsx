@@ -1,23 +1,28 @@
 import { useContext } from 'react'
 import { Table, Button } from 'shineout'
 import { context } from '../reducers'
-import { getList, remove } from '../serve'
+import { remove } from '../serve'
 
 export default function list() {
+  console.log('list')
   const [state, dispatch] = useContext(context)
+  const { refresh, searchParams } = state
   const handleEdit = (data) => {
-    dispatch({ type: 'changeVisible', payload: true })
-    dispatch({ type: 'changeForm', payload: data })
-    dispatch({ type: 'changeType', payload: 'edit' })
+    dispatch({
+      type: 'changeVal',
+      key: ['visible', 'formDefault', 'modalType'],
+      value: [true, data, 'edit']
+    })
   }
+  // 删除
   const handleDel = async (data) => {
     if (data) {
       await remove({ _id: data._id })
-      const params = {
-        ...state.page,
-        ...state.searchParams
-      }
-      dispatch({ type: 'getList', payload: getList(params) })
+      dispatch({
+        type: 'changeVal',
+        key: 'refresh',
+        value: refresh + 1
+      })
     }
   }
   const columns = [
@@ -34,22 +39,21 @@ export default function list() {
       fixed: 'right',
       render: r => (
         <span>
-          <Button data-info type="primary" onClick={() => handleEdit(r)} size="small"> 编辑 </Button>
+          <Button type="primary" onClick={() => handleEdit(r)} size="small"> 编辑 </Button>
           &nbsp;
-          <Button data-call type="primary" onClick={() => handleDel(r)} size="small">删除</Button>
+          <Button type="primary" onClick={() => handleDel(r)} size="small">删除</Button>
         </span>
       )
     }
   ]
   const onChangePage = (pageIndex, pageSize) => {
-    dispatch({ type: 'setPage', payload: { pageIndex, pageSize } })
-    const params = {
-      ...state.searchParams,
-      pageSize,
-      pageIndex
-    }
-    dispatch({ type: 'getList', payload: getList(params) })
+    dispatch({
+      type: 'changeVal',
+      key: ['searchParams', 'refresh'],
+      value: [{ ...searchParams, pageIndex, pageSize }, refresh + 1]
+    })
   }
+
   return (
     <Table
       keygen="_id"
@@ -62,7 +66,7 @@ export default function list() {
       pagination={{
         align: 'right',
         layout: ['links', 'list'],
-        current: state.page.pageIndex,
+        current: searchParams.pageIndex,
         onChange: (pageIndex, pageSize) => onChangePage(pageIndex, pageSize),
         pageSizeList: [10, 15, 20],
         total: state?.list?.count,

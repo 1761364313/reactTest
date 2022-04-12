@@ -2,7 +2,8 @@
 import { Message } from 'shineout'
 import { formatParams } from './utils'
 
-const orgin = 'http://localhost:8080'
+const orgin = 'http://localhost:3000/api'
+
 export const ajax = (url, option) => {
   url = orgin + url
   if (option && option.method === 'GET' && option.body) {

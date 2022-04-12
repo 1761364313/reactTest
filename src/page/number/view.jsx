@@ -4,25 +4,29 @@ import loadable from '@loadable/component'
 import { reducer, defaultValue, context } from './reducers'
 import { getList } from './serve'
 
-import { wraperDispatch } from '../../lib/utils'
-// import Myspin from '../../component/mySpin'
-// import Forms from './jsx/form'
-// import List from './jsx/list'
-
 const Myspin = loadable(() => import('../../component/mySpin'))
 const Forms = loadable(() => import('./jsx/form'))
 const List = loadable(() => import('./jsx/list'))
 const Edit = loadable(() => import('./jsx/edit'))
 
 function User() {
-  // eslint-disable-next-line prefer-const
-  let [state, dispatch] = useReducer(reducer, defaultValue)
-  dispatch = wraperDispatch(dispatch)
+  const [state, dispatch] = useReducer(reducer, defaultValue)
+
+  const { refresh, searchParams } = state
   const [loading] = useState(true)
 
   useEffect(() => {
-    dispatch({ type: 'getList', payload: getList({ ...state.page }) })
-  }, [])
+    getList(searchParams).then((res) => {
+      dispatch({
+        type: 'changeVal',
+        key: 'list',
+        value: res
+      })
+    })
+  }, [refresh])
+
+  useEffect(() => () => dispatch({ type: 'resetInit' }), [])
+  console.log('index')
   if (loading) {
     return (
       <context.Provider value={[state, dispatch]}>

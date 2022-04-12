@@ -3,11 +3,9 @@ import * as echarts from 'echarts/core'
 import { TooltipComponent, GridComponent, LegendComponent } from 'echarts/components'
 import { LineChart } from 'echarts/charts'
 import { CanvasRenderer } from 'echarts/renderers'
-import BaseItem from 'shineout/lib/DataList/BaseItem'
 
 echarts.use([TooltipComponent, GridComponent, LegendComponent, LineChart, CanvasRenderer])
-export default function skim(props) {
-  const { data } = props
+export default function skim() {
   const time = []
   const day = new Date().getHours()
 

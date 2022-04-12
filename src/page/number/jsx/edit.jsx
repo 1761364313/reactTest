@@ -1,14 +1,15 @@
 import React, { useState, useContext, useRef } from 'react'
 import { Modal, Button, Form, Input, Rule } from 'shineout'
 
-import { getList, add, update } from '../serve'
+import { add, update } from '../serve'
 
 import { context } from '../reducers'
 
 export default function edit() {
+  console.log('edit')
   const [state, dispatch] = useContext(context)
   const [submit, setSubmit] = useState(true)
-  const { modalType, formDefault } = state
+  const { modalType, formDefault, searchParams, refresh } = state
   const formRef = useRef(null)
   // 规则校验
   const rules = Rule({
@@ -25,19 +26,15 @@ export default function edit() {
       }
     }
   })
-  // 重置
+  // 重置数据
   function reset() {
-    let page = {
-      pageIndex: 1,
-      pageSize: 10
-    }
-    if (modalType === 'add') {
-      dispatch({ type: 'setPage', payload: page })
-    } else {
-      page = state.page
-    }
-    dispatch({ type: 'changeVisible', payload: false })
-    dispatch({ type: 'getList', payload: getList(page) })
+    let { pageIndex } = searchParams
+    if (modalType === 'add') pageIndex = 1
+    dispatch({
+      type: 'changeVal',
+      key: ['searchParams', 'visible', 'refresh'],
+      value: [{ ...searchParams, pageIndex }, false, refresh + 1]
+    })
     // 重置
     formRef.current && formRef.current.reset()
   }
@@ -55,7 +52,8 @@ export default function edit() {
             person: '',
             startTime: '',
             endTime: ''
-          } })
+          }
+        })
         reset()
       }
     }).catch(setSubmit(true))
@@ -83,7 +81,11 @@ export default function edit() {
   const handleClose = () => {
     // 重置
     formRef.current && formRef.current.reset()
-    dispatch({ type: 'changeVisible', payload: false })
+    dispatch({
+      type: 'changeVal',
+      key: 'visible',
+      value: false
+    })
   }
   return (
     <Modal
