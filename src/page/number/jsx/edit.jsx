@@ -1,13 +1,13 @@
-import React, { useState, useContext, useRef } from 'react'
+import React, { useState, useRef } from 'react'
 import { Modal, Button, Form, Input, Rule } from 'shineout'
 
 import { add, update } from '../serve'
 
-import { context } from '../reducers'
+import { useTracked } from '../reducers'
 
 export default function edit() {
   console.log('edit')
-  const [state, dispatch] = useContext(context)
+  const [state, setState] = useTracked()
   const [submit, setSubmit] = useState(true)
   const { modalType, formDefault, searchParams, refresh } = state
   const formRef = useRef(null)
@@ -30,11 +30,12 @@ export default function edit() {
   function reset() {
     let { pageIndex } = searchParams
     if (modalType === 'add') pageIndex = 1
-    dispatch({
-      type: 'changeVal',
-      key: ['searchParams', 'visible', 'refresh'],
-      value: [{ ...searchParams, pageIndex }, false, refresh + 1]
-    })
+    setState(prev => ({
+      ...prev,
+      visible: false,
+      searchParams: { pageSize: 10, pageIndex },
+      refresh: refresh + 1
+    }))
     // 重置
     formRef.current && formRef.current.reset()
   }
@@ -43,17 +44,6 @@ export default function edit() {
     add(data).then((res) => {
       setSubmit(true)
       if (res) {
-        dispatch({
-          type: 'setSearch',
-          payload: {
-            _id: '',
-            name: '',
-            tel: '',
-            person: '',
-            startTime: '',
-            endTime: ''
-          }
-        })
         reset()
       }
     }).catch(setSubmit(true))
@@ -81,11 +71,10 @@ export default function edit() {
   const handleClose = () => {
     // 重置
     formRef.current && formRef.current.reset()
-    dispatch({
-      type: 'changeVal',
-      key: 'visible',
-      value: false
-    })
+    setState(prev => ({
+      ...prev,
+      visible: false
+    }))
   }
   return (
     <Modal
@@ -104,9 +93,6 @@ export default function edit() {
         }}
         labelWidth="100px"
         value={formDefault}
-        onChange={(data) => {
-          dispatch({ type: 'changeForm', payload: data })
-        }}
         onSubmit={onSave}
       >
         <Form.Item required label="名称：" >

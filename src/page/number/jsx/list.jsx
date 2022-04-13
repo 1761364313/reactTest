@@ -1,28 +1,39 @@
-import { useContext } from 'react'
+import { useEffect } from 'react'
+
 import { Table, Button } from 'shineout'
-import { context } from '../reducers'
-import { remove } from '../serve'
+import { useTracked } from '../reducers'
+import { remove, getList } from '../serve'
 
 export default function list() {
-  console.log('list')
-  const [state, dispatch] = useContext(context)
+  const [state, setState] = useTracked()
   const { refresh, searchParams } = state
-  const handleEdit = (data) => {
-    dispatch({
-      type: 'changeVal',
-      key: ['visible', 'formDefault', 'modalType'],
-      value: [true, data, 'edit']
+  useEffect(() => {
+    getList(searchParams).then((res) => {
+      setState(prev => ({
+        ...prev,
+        list: res
+      }))
     })
+  }, [refresh])
+
+  console.log('list')
+
+  const handleEdit = (data) => {
+    setState(prev => ({
+      ...prev,
+      visible: true,
+      formDefault: data,
+      modalType: 'edit'
+    }))
   }
   // 删除
   const handleDel = async (data) => {
     if (data) {
       await remove({ _id: data._id })
-      dispatch({
-        type: 'changeVal',
-        key: 'refresh',
-        value: refresh + 1
-      })
+      setState(prev => ({
+        ...prev,
+        refresh: refresh + 1
+      }))
     }
   }
   const columns = [
@@ -47,11 +58,11 @@ export default function list() {
     }
   ]
   const onChangePage = (pageIndex, pageSize) => {
-    dispatch({
-      type: 'changeVal',
-      key: ['searchParams', 'refresh'],
-      value: [{ ...searchParams, pageIndex, pageSize }, refresh + 1]
-    })
+    setState(prev => ({
+      ...prev,
+      searchParams: { ...searchParams, pageIndex, pageSize },
+      refresh: refresh + 1
+    }))
   }
 
   return (

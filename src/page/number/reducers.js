@@ -1,5 +1,40 @@
-import { createContext } from 'react'
+import { createContext, useState } from 'react'
+import { createContainer } from 'react-tracked'
 
+const useValue = () => useState({
+  visible: false,
+  refresh: 1,
+  getCount: 11,
+  loading: false,
+  list: null,
+  modalType: 'add',
+  formDefault: {
+    name: '',
+    price: '',
+    priceAll: '',
+    tel: '',
+    person: ''
+  },
+  page: {
+    pageIndex: 1,
+    pageSize: 10
+  },
+  searchParams: {
+    _id: '',
+    name: '',
+    tel: '',
+    person: '',
+    startTime: '',
+    endTime: '',
+    pageIndex: 1,
+    pageSize: 10
+  }
+})
+const { Provider, useTracked } = createContainer(useValue)
+export {
+  Provider,
+  useTracked
+}
 // state
 export const defaultValue = {
   visible: false,

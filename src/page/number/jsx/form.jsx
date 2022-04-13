@@ -1,20 +1,19 @@
-import { useContext } from 'react'
 import { Form, Input, DatePicker, Button } from 'shineout'
 
-import { context } from '../reducers'
+import { useTracked } from '../reducers'
 
 export default function from() {
   console.log('form')
-  const [state, dispatch] = useContext(context)
+  const [state, setState] = useTracked()
 
   const { searchParams, refresh } = state
 
   const search = (e) => {
-    dispatch({
-      type: 'changeVal',
-      key: ['searchParams', 'refresh'],
-      value: [e, refresh + 1]
-    })
+    setState(prev => ({
+      ...prev,
+      searchParams: e,
+      refresh: refresh + 1
+    }))
   }
   return (
     <div>
@@ -44,11 +43,11 @@ export default function from() {
         <Button
           type="primary"
           onClick={() => {
-            dispatch({
-              type: 'changeVal',
-              key: ['visible', 'modalType'],
-              value: [true, 'add']
-            })
+            setState(prev => ({
+              ...prev,
+              visible: true,
+              modalType: 'add'
+            }))
           }}
         >
           新增
